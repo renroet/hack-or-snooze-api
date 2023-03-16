@@ -24,7 +24,9 @@ async function login(evt) {
   $loginForm.trigger("reset");
 
   saveUserCredentialsInLocalStorage();
+  hidePageComponents();
   updateUIOnUserLogin();
+  navAllStories();
 }
 
 $loginForm.on("submit", login);
@@ -47,6 +49,7 @@ async function signup(evt) {
   updateUIOnUserLogin();
 
   $signupForm.trigger("reset");
+  navAllStories();
 }
 
 $signupForm.on("submit", signup);
@@ -59,7 +62,7 @@ $signupForm.on("submit", signup);
 function logout(evt) {
   console.debug("logout", evt);
   localStorage.clear();
-  location.reload();
+  location.reload(); 
 }
 
 $navLogOut.on("click", logout);

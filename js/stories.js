@@ -8,8 +8,12 @@ let storyList;
 async function getAndShowStoriesOnStart() {
   storyList = await StoryList.getStories();
   $storiesLoadingMsg.remove();
-
+  if(currentUser) {
+    putStoriesOnUserPage();
+  }
+  else {
   putStoriesOnPage();
+  }
 }
 
 /**
@@ -24,7 +28,7 @@ async function getAndShowStoriesOnStart() {
   return (favorites.includes(ID) ? true : false);
 }
 
-function generateStoryMarkup(story) {
+function generateUserStoryMarkup(story) {
   const isFav = returnFav(story);
   let btnClass = "norms"
   let btn = '&#9734;'
@@ -48,7 +52,36 @@ function generateStoryMarkup(story) {
     `);
 }
 
+function generateStoryMarkup(story) {
+  
+  const hostName = story.getHostName();
+  return $(`
+      <li id="${story.storyId}">
+        <a href="${story.url}" target="a_blank" class="story-link">
+          ${story.title}
+        </a>
+        <small class="story-hostname">(${hostName})</small>
+        <small class="story-author">by ${story.author}</small>
+        <small class="story-user">posted by ${story.username}</small>
+      </li>
+    `);
+}
 /** Gets list of stories from server, generates their HTML, and puts on page. */
+
+function putStoriesOnUserPage() {
+  console.debug("putStoriesOnUserPage");
+
+  $allStoriesList.empty();
+
+  // loop through all of our stories and generate HTML for them
+  for (let story of storyList.stories) {
+    const $story = generateUserStoryMarkup(story);
+    $allStoriesList.append($story);
+  }
+  $('.favorite-btn button').on('click', handleFavoritesClick);
+  $('button.remove').on('click', handleRemoveClick);
+  $allStoriesList.show();
+}
 
 function putStoriesOnPage() {
   console.debug("putStoriesOnPage");
@@ -87,7 +120,7 @@ $newStoryForm.on("submit", createNewStory);
 
 
 async function handleFavoritesClick(evt) {
-  if($(evt.target).is('button.norms') || $(evt.target).is('button.favs')) {
+  // if($(evt.target).is('button.norms') || $(evt.target).is('button.favs')) {
   if($(evt.target).hasClass("favs")) {
     await currentUser.removeFromFavorites(evt)
     $(evt.target).toggleClass("favs")
@@ -97,15 +130,15 @@ async function handleFavoritesClick(evt) {
     $(evt.target).toggleClass("favs")
   }
 }
-}
+// }
 
 async function handleRemoveClick(evt) {
-  if($(evt.target).is('button.remove')) {
+  // if($(evt.target).is('button.remove')) {
   await currentUser.removeStory(evt)
+// }
 }
-}
 
 
-$body.on("click", $(".favorite-btn"), handleFavoritesClick);
+// $body.on("click", $(".favorite-btn button"), handleFavoritesClick);
 
-$body.on("click", $('button.remove'), handleRemoveClick);
+// $body.on("click", $('button.remove'), handleRemoveClick);

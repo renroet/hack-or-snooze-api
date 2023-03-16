@@ -120,7 +120,6 @@ $newStoryForm.on("submit", createNewStory);
 
 
 async function handleFavoritesClick(evt) {
-  // if($(evt.target).is('button.norms') || $(evt.target).is('button.favs')) {
   if($(evt.target).hasClass("favs")) {
     await currentUser.removeFromFavorites(evt)
     $(evt.target).toggleClass("favs")
@@ -130,15 +129,9 @@ async function handleFavoritesClick(evt) {
     $(evt.target).toggleClass("favs")
   }
 }
-// }
+
 
 async function handleRemoveClick(evt) {
-  // if($(evt.target).is('button.remove')) {
   await currentUser.removeStory(evt)
-// }
 }
 
-
-// $body.on("click", $(".favorite-btn button"), handleFavoritesClick);
-
-// $body.on("click", $('button.remove'), handleRemoveClick);

@@ -110,7 +110,7 @@ async function createNewStory(evt) {
   let story = await storyList.addStory(currentUser, {title, author, url})
   let $newStory = generateStoryMarkup(story)
   $allStoriesList.append($newStory)
-  putStoriesOnPage()
+  putStoriesOnUserPage()
   $newStoryForm.hide()
 
 }

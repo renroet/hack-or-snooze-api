@@ -248,14 +248,24 @@ class User {
 async removeStory(evt) {
   const token = currentUser.loginToken;
   const $li = $(evt.target).closest("li")
-  $li.remove();
   const $storyID = $li.attr("id");
-  let res = await axios({
-    url:`${BASE_URL}/stories/${$storyID}`,
-    method: "DELETE",
-    data: { token },
-  });
-
+  for (let story of currentUser.ownStories) {
+    if(story.storyId == $storyID){
+      $li.remove();
+      let res = await axios({
+        url:`${BASE_URL}/stories/${$storyID}`,
+        method: "DELETE",
+        data: { token },
+      })
+    }
+  }
+  // $li.remove();
+  // const $storyID = $li.attr("id");
+  // let res = await axios({
+  //   url:`${BASE_URL}/stories/${$storyID}`,
+  //   method: "DELETE",
+  //   data: { token },
+  // });
 }
 
 }

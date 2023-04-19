@@ -6,6 +6,11 @@ const BASE_URL = "https://hack-or-snooze-v3.herokuapp.com";
  * Story: a single story in the system
  */
 
+// getHostName
+// try/catch
+// remove presentational info from file
+// look up data structures and algorithms
+
 class Story {
 
   /** Make instance of Story from data object about story:
